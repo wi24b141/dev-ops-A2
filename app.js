@@ -2,6 +2,7 @@ const products = [
   {
     id: "mug",
     name: "Stoneware mug",
+    category: "Kitchen",
     price: 18,
     color: "#c4a484",
     description: "A heavy everyday mug. Holds about 300 ml and stacks in the cupboard."
@@ -9,6 +10,7 @@ const products = [
   {
     id: "notebook",
     name: "Plain notebook",
+    category: "Stationery",
     price: 12,
     color: "#d8c7a1",
     description: "96 blank pages. Soft cover, thread-bound, fits in a bag."
@@ -16,6 +18,7 @@ const products = [
   {
     id: "tote",
     name: "Canvas tote",
+    category: "Bags",
     price: 24,
     color: "#8f9e8a",
     description: "Unlined cotton canvas with two long handles. Washes cold."
@@ -23,6 +26,7 @@ const products = [
   {
     id: "lamp",
     name: "Desk lamp",
+    category: "Lighting",
     price: 46,
     color: "#e7d7c1",
     description: "A small lamp with a warm bulb. The arm bends and stays put."
@@ -35,6 +39,7 @@ const grid = document.querySelector("#product-grid");
 const productsView = document.querySelector("#products");
 const detailView = document.querySelector("#detail");
 const detail = document.querySelector("#product-detail");
+const categoryFilter = document.querySelector("#category-filter");
 const cartPanel = document.querySelector("#cart");
 const cartItems = document.querySelector("#cart-items");
 const cartCount = document.querySelector("#cart-count");
@@ -48,9 +53,24 @@ function money(amount) {
   return "$" + amount.toFixed(2);
 }
 
+function renderCategoryFilter() {
+  const categories = [...new Set(products.map((product) => product.category))];
+  categoryFilter.innerHTML =
+    '<option value="all">All categories</option>' +
+    categories
+      .map((category) => '<option value="' + category + '">' + category + "</option>")
+      .join("");
+}
+
 function renderGrid() {
   grid.innerHTML = "";
-  products.forEach((product) => {
+  const selectedCategory = categoryFilter.value;
+  const visibleProducts =
+    selectedCategory === "all"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
+
+  visibleProducts.forEach((product) => {
     const item = document.createElement("li");
     const button = document.createElement("button");
     button.className = "card";
@@ -63,6 +83,10 @@ function renderGrid() {
     item.appendChild(button);
     grid.appendChild(item);
   });
+
+  if (visibleProducts.length === 0) {
+    grid.innerHTML = '<li class="muted">No products in this category.</li>';
+  }
 }
 
 function showProduct(id) {
@@ -153,6 +177,7 @@ cartToggle.addEventListener("click", () => {
 });
 
 closeCart.addEventListener("click", hideCart);
+categoryFilter.addEventListener("change", renderGrid);
 
 document.querySelector("#back-button").addEventListener("click", showList);
 document.querySelector("#home-link").addEventListener("click", (event) => {
@@ -166,5 +191,6 @@ checkout.addEventListener("click", () => {
   checkoutNote.hidden = false;
 });
 
+renderCategoryFilter();
 renderGrid();
 renderCart();
