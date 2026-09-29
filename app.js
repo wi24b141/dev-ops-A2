@@ -39,6 +39,7 @@ const grid = document.querySelector("#product-grid");
 const productsView = document.querySelector("#products");
 const detailView = document.querySelector("#detail");
 const detail = document.querySelector("#product-detail");
+const searchInput = document.querySelector("#search");
 const categoryFilter = document.querySelector("#category-filter");
 const cartPanel = document.querySelector("#cart");
 const cartItems = document.querySelector("#cart-items");
@@ -65,10 +66,14 @@ function renderCategoryFilter() {
 function renderGrid() {
   grid.innerHTML = "";
   const selectedCategory = categoryFilter.value;
-  const visibleProducts =
-    selectedCategory === "all"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+  const query = searchInput.value.trim().toLowerCase();
+  const visibleProducts = products.filter((product) => {
+    const matchesCategory =
+      selectedCategory === "all" || product.category === selectedCategory;
+    const matchesSearch =
+      query === "" || product.name.toLowerCase().includes(query);
+    return matchesCategory && matchesSearch;
+  });
 
   visibleProducts.forEach((product) => {
     const item = document.createElement("li");
@@ -85,7 +90,7 @@ function renderGrid() {
   });
 
   if (visibleProducts.length === 0) {
-    grid.innerHTML = '<li class="muted">No products in this category.</li>';
+    grid.innerHTML = '<li class="muted">No matching products.</li>';
   }
 }
 
@@ -177,6 +182,7 @@ cartToggle.addEventListener("click", () => {
 });
 
 closeCart.addEventListener("click", hideCart);
+searchInput.addEventListener("input", renderGrid);
 categoryFilter.addEventListener("change", renderGrid);
 
 document.querySelector("#back-button").addEventListener("click", showList);

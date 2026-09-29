@@ -84,13 +84,15 @@ h1 {
   color: var(--muted);
 }
 
+.search,
 .category-filter {
   display: inline-flex;
   flex-direction: column;
   gap: 0.35rem;
-  margin-top: 0.75rem;
+  margin: 0.75rem 1rem 0 0;
 }
 
+.search input,
 .category-filter select {
   border: 1px solid var(--line);
   border-radius: 8px;
