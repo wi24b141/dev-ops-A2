@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harbor Goods</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="#products" id="home-link">Harbor Goods</a>
+    <button type="button" class="cart-toggle" id="cart-toggle" aria-expanded="false">
+      Cart <span id="cart-count">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section id="products" class="view">
+      <h1>Everyday goods</h1>
+      <p class="lead">A small selection. Pick an item to see the details.</p>
+      <ul class="grid" id="product-grid"></ul>
+    </section>
+
+    <section id="detail" class="view" hidden>
+      <button type="button" class="text-button" id="back-button">Back to products</button>
+      <article class="detail" id="product-detail"></article>
+    </section>
+  </main>
+
+  <aside class="cart" id="cart" hidden>
+    <div class="cart-head">
+      <h2>Your cart</h2>
+      <button type="button" class="text-button" id="close-cart">Close</button>
+    </div>
+    <ul class="cart-items" id="cart-items"></ul>
+    <p class="cart-total" id="cart-total"></p>
+    <button type="button" class="primary" id="checkout" disabled>Checkout</button>
+    <p class="note" id="checkout-note" hidden>Thanks. This demo does not take payment.</p>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>
